@@ -16,10 +16,12 @@ const LOG_CONSOLE = JSON.parse(process.env.LOG_CONSOLE as string);
 async function _initApp(isFastify: boolean, isLogger: boolean) {
   if (isFastify) {
     const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter({ logger: isLogger }));
+    app.enableCors();
     app.register(contentParser);
     return app;
   }
   const app = await NestFactory.create(AppModule, { logger: isLogger ? ['verbose'] : false });
+  app.enableCors();
   return app;
 }
 
